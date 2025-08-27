@@ -29,8 +29,11 @@
           </div>
           <div class="ml-4">
             <h3 class="text-lg font-medium text-gray-900"><%= project.name %></h3>
-            <p class="text-sm text-gray-500"><%= pluralize(project.todos.count, 'todo') %></p>
+            <p class="text-sm text-gray-500"><%= pluralize(project.todos_count, 'todo') %></p>
           </div>
+          <div class="ml-auto self-start">
+            <%= status_badge(project) %>
+          </div>   
         </div>
         <div class="mt-6">
           <div class="flex space-x-3">
