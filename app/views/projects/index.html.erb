@@ -32,7 +32,7 @@
             <p class="text-sm text-gray-500"><%= pluralize(project.todos_count, 'todo') %></p>
           </div>
           <div class="ml-auto self-start">
-            <%= status_badge(project) %>
+            <%= status_badge(project.status) %>
           </div>   
         </div>
         <div class="mt-6">

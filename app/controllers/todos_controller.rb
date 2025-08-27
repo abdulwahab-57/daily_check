@@ -1,4 +1,6 @@
 class TodosController < ApplicationController
+  helper StatusHelper
+
   before_action :set_todo, only: %i[ show edit update destroy ]
   before_action :set_project, only: %i[ index new create ]
 
