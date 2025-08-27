@@ -25,7 +25,7 @@ puts "🌱 Seeding database..."
   )
 
   rand(5..10).times do
-    todo = project.todos.create!(
+    project.todos.create!(
       title: Faker::Lorem.sentence(word_count: 3),
       description: Faker::Lorem.paragraph,
       status: Todo.statuses.values.sample,
@@ -36,9 +36,7 @@ puts "🌱 Seeding database..."
       estimate_minutes: rand(30..240),
       time_spent_minutes: rand(0..240)
     )
-
-    project.increment!(:todos_count)
-    project.increment!(:completed_todos_count) if todo.done?
+    
   end
 end
 
