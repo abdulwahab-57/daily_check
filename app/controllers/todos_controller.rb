@@ -15,7 +15,7 @@ class TodosController < ApplicationController
 
   # GET /todos/new
   def new
-    @todo = @project.todos.build
+    @todo = @project.todos.build(parent_id: params[:parent_id])
   end
 
   # GET /todos/1/edit
@@ -72,6 +72,6 @@ class TodosController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def todo_params
-      params.require(:todo).permit(:title, :description)
+      params.require(:todo).permit(:title, :description, :parent_id)
     end
 end

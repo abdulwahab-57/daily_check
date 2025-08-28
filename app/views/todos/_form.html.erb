@@ -44,6 +44,8 @@
             <%= form.text_area :description, rows: 4, class: "block w-full px-4 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-white shadow-sm hover:border-gray-400 transition-colors", placeholder: "Enter todo description" %>
           </div>
         </div>
+        <%# Hidden %>
+        <%= form.hidden_field :parent_id %>
       </div>
     </div>
   </div>

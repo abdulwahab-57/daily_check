@@ -6,11 +6,21 @@ class Todo < ApplicationRecord
   # Associations
   belongs_to :project
 
+  # Self-referential association for subtasks
+  belongs_to :parent, class_name: "Todo", optional: true
+  has_many :subtasks, class_name: "Todo", foreign_key: "parent_id", dependent: :destroy
+
+  # Scopes
+  scope :parent_tasks, -> { where(parent_id: nil).includes(:subtasks) }
+
+  # Associations validations
+  validates :project, presence: true
+
   # Validations
   validates :title, :project_id, :status, :priority, presence: true
-  
+
   validates :estimate_minutes, :time_spent_minutes, numericality: { greater_than_or_equal_to: 0 }
-  
+
   validate :starts_before_completion
   def starts_before_completion
     return if starts_at.blank? || completed_at.blank?
@@ -39,5 +49,5 @@ class Todo < ApplicationRecord
   def decrement_project_counters
     project.decrement!(:todos_count)
     project.decrement!(:completed_todos_count) if done?
-  end 
+  end
 end
