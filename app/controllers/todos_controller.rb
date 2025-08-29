@@ -1,4 +1,5 @@
 class TodosController < ApplicationController
+  include Transitionable
   helper StatusHelper
 
   before_action :set_todo, only: %i[ show edit update destroy ]

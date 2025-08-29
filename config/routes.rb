@@ -1,9 +1,15 @@
 Rails.application.routes.draw do
-
   root "projects#index"
 
+  concern :transitionable do
+    member { patch :change_state }
+  end
+
   resources :projects do
-    resources :todos, shallow: true
+    concerns :transitionable
+    resources :todos, shallow: true do
+      concerns :transitionable
+    end
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

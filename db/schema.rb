@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_08_28_141541) do
+ActiveRecord::Schema[7.2].define(version: 2025_08_29_130438) do
   create_table "projects", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -23,6 +23,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_08_28_141541) do
     t.integer "todos_count", default: 0, null: false
     t.integer "completed_todos_count", default: 0, null: false
     t.index ["slug"], name: "index_projects_on_slug", unique: true
+    t.index ["status"], name: "index_projects_on_status"
   end
 
   create_table "todos", force: :cascade do |t|

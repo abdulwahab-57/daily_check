@@ -1,4 +1,58 @@
 class Todo < ApplicationRecord
+  include AASM
+
+  aasm column: :status do
+    state :todo, initial: true
+    state :in_progress
+    state :blocked
+    state :done
+    state :canceled
+
+    event :start do
+      transitions from: :todo, to: :in_progress
+    end
+
+    event :block do
+      transitions from: [ :todo, :in_progress ], to: :blocked
+    end
+
+    event :unblock do
+      transitions from: :blocked, to: :todo
+    end
+
+    event :complete do
+      transitions from: [ :todo, :in_progress, :blocked ], to: :done,
+                  guard: :all_subtasks_completed?
+      after do
+        update_project_status
+        set_completed_at
+      end
+    end
+
+    event :cancel do
+      transitions from: [ :todo, :in_progress, :blocked ], to: :canceled
+    end
+  end
+
+  def all_subtasks_completed?
+    return true if subtasks.empty?
+    subtasks.where.not(status: [ :done, :canceled ]).empty?
+  end
+
+  def update_project_status
+    return unless project.active?
+    project.complete! if project.may_complete? && project.all_todos_completed?
+  end
+
+  # Helper methods for the views/controllers
+  def available_events
+    aasm.events(permitted: true).map(&:name)
+  end
+
+  def can_transition_to?(event)
+    aasm.may_fire_event?(event.to_sym)
+  end
+
   # Enums
   enum status: { todo: 0, in_progress: 1, blocked: 2, done: 3, canceled: 4 }
   enum priority: { low: 0, medium: 1, high: 2, urgent: 3 }
