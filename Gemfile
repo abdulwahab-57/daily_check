@@ -62,4 +62,4 @@ group :test do
 end
 
 gem "tailwindcss-rails", "~> 4.3"
-gem "aasm", "~> 5.1", ">= 5.1.1"
+gem "aasm", "~> 5.5"
